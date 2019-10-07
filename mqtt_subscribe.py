@@ -5,8 +5,8 @@ import json
 #datetime library
 import datetime
 #data　analysis library
-import pandas as pd
-import os
+#import pandas as pd
+#import os
 
 #SenseWay Mission Connect userID
 USER_ID = None
@@ -21,9 +21,11 @@ receive_time = None
 receive_diveui = None
 receive_count = None
 
+
+""" 
+not complete
 def csv_data_write():
   df = pd.DataFrame(datalist, colums = ["EUI", "data", "time", "count"])
-  print("tanipai")
 
   df.to_csv(os.getcwd(),encoding="utf-8")
 
@@ -34,6 +36,7 @@ def utc_to_jst(timestamp_utc):
     datetime_jst = datetime_utc.astimezone(datetime.timezone(datetime.timedelta(hours=+9)))
     timestamp_jst = datetime.datetime.strftime(datetime_jst, '%Y-%m-%d %H:%M:%S.%f')
     return timestamp_jst
+"""
 
 # connect MQTT broker callback
 def on_connect(client, userdata, flag, rc):
