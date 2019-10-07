@@ -38,6 +38,9 @@ pipのインストールはproxy環境下では動作しません。
 
 ## 実行方法
 
+pythonファイル内のuser名、パスワード、デバイスIDをNoneから
+自分たちで設定したID等に変更して入力し
+
 pythonファイルがあるディレクトリで
 
 ``` $python  mqtt_subscribe.py```
