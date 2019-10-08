@@ -1,15 +1,15 @@
 # mqtt subscriber for sensewaymisson connect
 
-# 概要
+## 概要
 
 LoRAのデータを管理するsenseway misson connectからのデータ受信をmqttプロトコルを用いて行う。
 受信したデータは任意のデータのみ取り出し、csvにデータを保存する。
 
-# システム構成
+## システム構成
 
 Arduino LoRaシールド =(LoRa)=> senseway mission connect =(mqtt)=> PC　=> csvfile
 
-# ファイル構成
+## ファイル構成
 
 * mqtt_subscribe.py     ... mqttのサブスクライブが行える
 * read_passward.py      ... sensewaymissonconnectのユーザー情報が書かれているてきぅとファイルからユーザー情報を読み取る
@@ -18,34 +18,34 @@ Arduino LoRaシールド =(LoRa)=> senseway mission connect =(mqtt)=> PC　=> cs
 * data/data.csv         ... mqttsubscribeの出力先
 * data/data_example.csv ... csvの出力例
 
-# 実行環境
+## 実行環境
 
-## python3.x系
+### python3.x系
 
 各バージョン毎で動作確認等は行っていないが3.7.3で構築を行っているのでその近辺のバージョンは
 確実に動く
 
-## pip
+### pip
 
-### * paho-mqtt
+#### * paho-mqtt
 
 MQTTをpythonで動かすのに使用するライブラリ
 
-### ``` $pip install paho-mqtt ```
+#### ``` $pip install paho-mqtt ```
 
 でインストールできる。
 
-### * pandas
+#### * pandas
 
 データ解析を行うライブラリ
 csv出力に使用する
 
-### ``` $pip install pandas ```
+#### ``` $pip install pandas ```
 
 でインストールできる。
 
 
-#### memo
+### memo
 
 pipのインストールはproxy環境下では動作しません。
 
@@ -54,7 +54,7 @@ pipのインストールはproxy環境下では動作しません。
 で動作が行えます。
 
 
-# 実行方法
+## 実行方法
 
 pass_example.txtの中のように
 * userid
@@ -69,6 +69,6 @@ pythonファイルがあるディレクトリで
 で実行することができる。
 
 
-## 参考URL
+### 参考URL
 1. [pythonでMQTT送受信 - Qiita](https://qiita.com/hsgucci/items/6461d8555ea1245ef6c2)
 2. [pandas.DataFrameの構造とその作成方法 | note.nkmk.me](https://note.nkmk.me/python-pandas-dataframe-values-columns-index/)
