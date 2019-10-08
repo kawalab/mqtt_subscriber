@@ -35,7 +35,7 @@ def csv_data_write(datalist):
 # receive date time is UTC... need UTC to JST time. this function UTC string to JST string changing!
 # https://dev.classmethod.jp/server-side/python/python-time-string-timezone/
 def utc_to_jst(timestamp_utc):
-    datetime_utc = datetime.datetime.strptime(timestamp_utc)
+    datetime_utc = datetime.datetime.strptime(timestamp_utc, "%Y-%m-%dT%H:%M:%S.%f%z")
     datetime_jst = datetime_utc.astimezone(datetime.timezone(datetime.timedelta(hours=+9)))
     timestamp_jst = datetime.datetime.strftime(datetime_jst, '%Y-%m-%d %H:%M:%S.%f')
     return timestamp_jst
@@ -63,7 +63,7 @@ def on_message(client, userdata, msg):
   receive_data = float(int(json_data["mod"]["data"], 16) / 100)
   print("receive data : " + str(receive_data))
   # gateway receive time
-  receive_time = (str(json_data["gw"][0]["date"]))
+  receive_time = utc_to_jst((str(json_data["gw"][0]["date"])))
   print("receive time : " + receive_time)
   # dev id
   receive_diveui = json_data["mod"]["devEUI"]
