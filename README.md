@@ -2,7 +2,7 @@
 
 ## 概要
 
-LoRAのデータを管理するsenseway misson connectからのデータ受信をmqttプロトコルを用いて行う。
+LoRaのデータを管理するsenseway misson connectからのデータ受信をmqttプロトコルを用いて行う。
 受信したデータは任意のデータのみ取り出し、csvにデータを保存する。
 
 ## システム構成
