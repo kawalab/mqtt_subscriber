@@ -12,7 +12,7 @@ Arduino LoRaシールド =(LoRa)=> senseway mission connect =(mqtt)=> PC　=> cs
 ## ファイル構成
 
 * mqtt_subscribe.py     ... mqttのサブスクライブが行える
-* read_passward.py      ... sensewaymissonconnectのユーザー情報が書かれているてきぅとファイルからユーザー情報を読み取る
+* read_passward.py      ... sensewaymissonconnectのユーザー情報が書かれているテキストファイルからユーザー情報を読み取る
 * pass_example.txt      ... pass.txtの書き方が書いてある
 * Pipfile               ... pipのバージョン管理用
 * data/data.csv         ... mqttsubscribeの出力先
