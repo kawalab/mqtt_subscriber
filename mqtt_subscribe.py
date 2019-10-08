@@ -5,7 +5,7 @@ import json
 #datetime library
 import datetime
 #data　analysis library
-#import pandas as pd
+import pandas as pd
 #import os
 from read_password import read_pass
 
@@ -23,12 +23,14 @@ receive_diveui = None
 receive_count = None
 
 
-""" 
-not complete
-def csv_data_write():
-  df = pd.DataFrame(datalist, colums = ["EUI", "data", "time", "count"])
 
-  df.to_csv(os.getcwd(),encoding="utf-8")
+def csv_data_write(datalist):
+  df = pd.DataFrame({"EUI"  : datalist[2],
+                     "data" : datalist[0],
+                     "time" : datalist[1],
+                     "count": datalist[3]}, index=['i',])
+  print(df)
+  df.to_csv("data/data.csv" , encoding="utf-8",  mode='a', header=False)
 
 # receive date time is UTC... need UTC to JST time. this function UTC string to JST string changing!
 # https://dev.classmethod.jp/server-side/python/python-time-string-timezone/
@@ -37,7 +39,6 @@ def utc_to_jst(timestamp_utc):
     datetime_jst = datetime_utc.astimezone(datetime.timezone(datetime.timedelta(hours=+9)))
     timestamp_jst = datetime.datetime.strftime(datetime_jst, '%Y-%m-%d %H:%M:%S.%f')
     return timestamp_jst
-"""
 
 # connect MQTT broker callback
 def on_connect(client, userdata, flag, rc):
@@ -71,7 +72,8 @@ def on_message(client, userdata, msg):
   receive_count = json_data["mod"]["cnt"]
   print("send count   : " + str(receive_count))
   print("========================================================")
-  #csv_data_write()
+  write_data = [receive_data, receive_time, receive_diveui, receive_count]
+  csv_data_write(write_data)
 
 # MQTT connect opition
 client = mqtt.Client()
