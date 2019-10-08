@@ -7,13 +7,14 @@ import datetime
 #data　analysis library
 #import pandas as pd
 #import os
+from read_password import read_pass
 
-#SenseWay Mission Connect userID
-USER_ID = None
-#SenseWay Mission Connect passward : warning!!
-USER_PASS = None
-#LoRa dev ID
-DEVEUI = None
+password_file = "pass.txt"
+
+DEVEUI, USER_PASS, USER_ID = read_pass(password_file)
+print("DEVEUI : " + DEVEUI)
+print("USER_PASS : " + USER_PASS)
+print("USER_ID : " + USER_ID)
 
 """MQTT receive data!!"""
 receive_data = None
