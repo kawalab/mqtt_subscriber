@@ -1,20 +1,16 @@
-#MQTT library
 import paho.mqtt.client as mqtt
-#json data library
 import json
-#datetime library
 import datetime
-#data　analysis library
 import pandas as pd
-#import os
+
 from read_password import read_pass
 
 password_file = "pass.txt"
 
-DEVEUI, USER_PASS, USER_ID = read_pass(password_file)
-print("DEVEUI : " + DEVEUI)
-print("USER_PASS : " + USER_PASS)
+USER_ID, USER_PASS, DEVEUI = read_pass(password_file)
 print("USER_ID : " + USER_ID)
+print("USER_PASS : " + USER_PASS)
+print("DEVEUI : " + DEVEUI)
 
 """MQTT receive data!!"""
 receive_data = None
@@ -22,22 +18,26 @@ receive_time = None
 receive_diveui = None
 receive_count = None
 
-
-
 def csv_data_write(datalist):
-  df = pd.DataFrame({"EUI"  : datalist[2],
-                     "data" : datalist[0],
-                     "time" : datalist[1],
-                     "count": datalist[3]}, index=['i',])
-  print(df)
+  df = pd.DataFrame({"EUI"  : datalist[0],
+                     "data" : datalist[1],
+                     "time" : datalist[2],},
+                     index=[datalist[3],])
+  #print(df)
   df.to_csv("data/data.csv" , encoding="utf-8",  mode='a', header=False)
 
+def header_csv():
+  df = pd.DataFrame({"EUI"  : "EUI",
+                     "data" : "data",
+                     "time" : "time",},
+                     index=[" ",])
+  df.to_csv("data/data.csv" , encoding="utf-8",  mode='w', header=False)
+
 # receive date time is UTC... need UTC to JST time. this function UTC string to JST string changing!
-# https://dev.classmethod.jp/server-side/python/python-time-string-timezone/
 def utc_to_jst(timestamp_utc):
     datetime_utc = datetime.datetime.strptime(timestamp_utc, "%Y-%m-%dT%H:%M:%S.%f%z")
-    datetime_jst = datetime_utc.astimezone(datetime.timezone(datetime.timedelta(hours=+9)))
-    timestamp_jst = datetime.datetime.strftime(datetime_jst, '%Y-%m-%d %H:%M:%S.%f')
+    datetime_jst = datetime_utc.astimezone(datetime.timezone(datetime.timedelta(hours =+ 9)))
+    timestamp_jst = datetime.datetime.strftime(datetime_jst, '%Y-%m-%d %H:%M:%S')
     return timestamp_jst
 
 # connect MQTT broker callback
@@ -54,7 +54,7 @@ def on_disconnect(client, userdata, flag, rc):
 # message receive callback
 def on_message(client, userdata, msg):
   # msg.topic -> topic ，msg.payload -> main message
-  print("Received message '" + str(msg.payload))
+  #print("Received message '" + str(msg.payload))
   json_data = json.loads(msg.payload)
 
   # token
@@ -66,14 +66,17 @@ def on_message(client, userdata, msg):
   receive_time = utc_to_jst((str(json_data["gw"][0]["date"])))
   print("receive time : " + receive_time)
   # dev id
-  receive_diveui = json_data["mod"]["devEUI"]
+  receive_diveui = str(json_data["mod"]["devEUI"])
   print("receive EUI  : " + receive_diveui)
   # dev send count
   receive_count = json_data["mod"]["cnt"]
   print("send count   : " + str(receive_count))
   print("========================================================")
-  write_data = [receive_data, receive_time, receive_diveui, receive_count]
+  write_data = [receive_diveui, receive_data, receive_time, receive_count]
   csv_data_write(write_data)
+
+
+header_csv()
 
 # MQTT connect opition
 client = mqtt.Client()
@@ -86,6 +89,6 @@ client.on_message = on_message
 #client userid pass set
 client.username_pw_set(USER_ID, USER_PASS)
 #client connect execute! connect to sensewaymission connect
-client.connect("mqtt.senseway.net", 1883, 600)
+client.connect("mqtt.senseway.net", 1883, 60)
 
 client.loop_forever()
