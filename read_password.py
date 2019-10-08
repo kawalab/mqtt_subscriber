@@ -1,6 +1,6 @@
 def read_pass(password_file):
     f = open(password_file)
-    lines = f.readlines()
+    lines = f.read().split()
     f.close()
 
     return lines
