@@ -86,6 +86,10 @@ client.on_connect = on_connect
 client.on_disconnect = on_disconnect
 #message callback setting
 client.on_message = on_message
+# new!! set proxy server
+socks.setdefaultproxy(proxy_type=socks.PROXY_TYPE_HTTP, addr="proxy.xyz.com", port=0000, rdns=True,username="xyz", password="abc")
+socket.socket = socks.socksocket
+client.proxy_set(proxy_type=socks.HTTP, proxy_addr=proxy_host, proxy_port=proxy_port)
 #client userid pass set
 client.username_pw_set(USER_ID, USER_PASS)
 #client connect execute! connect to sensewaymission connect
