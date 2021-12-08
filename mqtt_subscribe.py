@@ -63,7 +63,7 @@ def on_message(client, userdata, msg):
   receive_data = float(int(json_data["mod"]["data"], 16) / 100)
   print("receive data : " + str(receive_data))
   # gateway receive time
-  receive_time = utc_to_jst((str(json_data["gw"][0]["date"])))
+  receive_time = (str(json_data["gw"][0]["date"]))
   print("receive time : " + receive_time)
   # dev id
   receive_diveui = str(json_data["mod"]["devEUI"])
@@ -86,10 +86,6 @@ client.on_connect = on_connect
 client.on_disconnect = on_disconnect
 #message callback setting
 client.on_message = on_message
-# new!! set proxy server
-socks.setdefaultproxy(proxy_type=socks.PROXY_TYPE_HTTP, addr="proxy.xyz.com", port=0000, rdns=True,username="xyz", password="abc")
-socket.socket = socks.socksocket
-client.proxy_set(proxy_type=socks.HTTP, proxy_addr=proxy_host, proxy_port=proxy_port)
 #client userid pass set
 client.username_pw_set(USER_ID, USER_PASS)
 #client connect execute! connect to sensewaymission connect
